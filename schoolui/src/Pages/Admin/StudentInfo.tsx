@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from '../../Components/Navbar/Navbar';
 
-function StudentInfo() {
+const StudentInfo:React.FC = () => {
   return (
     <>
       <Navbar />
@@ -26,6 +26,7 @@ function StudentInfo() {
             { label: "Class ID", placeholder: "Class ID" },
             { label: "Section ID", placeholder: "Section ID" },
             { label: "Class Teacher", placeholder: "Class Teacher" },
+            {label: "Admission", plceholder: "Admission Date", type: "Date"},
             {label : "Academic Year", placeholder: "yyyy-yyyy", type: "number"}
           ].map((field, index) => (
             <div key={index} className="flex flex-col">
