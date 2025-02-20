@@ -11,6 +11,9 @@ const studentSchema = new mongoose.Schema({
     classTeacher: { type: String, required: true },
     admissionDate: { type: Date, required: true },
     academicYear: { type: String, required: true },
+    semester: {type: String, required: true},
+    totalMark : {type : Number, required : true},
+    Grade : {type : String, required : true },
     subjects: [
         {
             subjectName: { type: String, required: true },

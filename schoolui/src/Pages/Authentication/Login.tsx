@@ -1,8 +1,40 @@
 import React from "react";
 import CenteredImageLayout from "../../Components/SideImage/CenteredImageLayout";
 import bgSlide from "../../assets/bgSlide.jpg";
+import * as yup from "yup";
+import { useFormik } from "formik";
 
-function Login() {
+
+const validationSchema = yup.object({
+  email: yup.string()
+   .email("Invalid email address")
+   .required("Email address is required")
+   .max(15, "Maximum 15 charcters allowed"),
+  password: yup.string()
+   .min(8, "Password must be at least 8 characters")
+   .max(30,"Password 30 charcters allowed")
+   .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
+   .matches(/[a-z]/, "Password must contain at least one or more lowercase letter")
+   .matches(/[0-9]/, "Password must contain at least one number")
+   .matches(/[!@#$%^&*(),.?":{}|<>]/, "Password must contain at least one special character")
+   .matches(/^\s*$/,"password must not contain spaces")
+   .required("Password is required")
+})
+
+const  Login = ()  => {
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema,
+    onSubmit: (values) => {
+      // Submit the form
+      console.log(values, "Login Values");
+    }
+  })
+
   return (
     <div className="flex min-h-screen">
         <div className="font-bold px-3">
@@ -21,9 +53,15 @@ function Login() {
             maxLength={15}
               type="email"
               id="email"
-              className="mt-1 block h-[2rem] w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              className={`mt-1 block h-[2rem] w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm ${
+                formik.touched.email && formik.errors.email ? "border-red-500" : ""
+              }`}
               placeholder="Enter your email"
+              {...formik.getFieldProps("email")}
             />
+            {formik.touched.email && formik.errors.email && (
+              <p className="text-red-500 text-sm">{formik.errors.email}</p>
+            )}
           </div>
           {/* Password Input */}
           <div className="mb-4">
@@ -34,13 +72,20 @@ function Login() {
               maxLength={30}
               type="password"
               id="password"
-              className="mt-1 block h-[2rem] w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              className={`mt-1 block h-[2rem] w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm ${
+                formik.touched.password && formik.errors.password ? "border-red-500" : ""
+              }`}
               placeholder="Enter your password"
+              {...formik.getFieldProps("password")}
             />
+            {formik.touched.password && formik.errors.password && (
+              <p className="text-red-500 text-sm">{formik.errors.password}</p>
+            )}
           </div>
           {/* Login Button */}
           <button
             type="submit"
+            onClick={() => alert("Login")}
             className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Login

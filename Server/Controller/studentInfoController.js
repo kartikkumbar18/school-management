@@ -13,15 +13,16 @@ exports.addStudentInfo = async (req, res) => {
             classTeacher,
             admissionDate,
             academicYear,
+            totalMark,
+            Grade,
+            semester,
             subjects
         } = req.body;
-
         
-        if (!studentName || !fatherName || !motherName || !contactNo || !rollNo || !classId || !sectionId || !classTeacher || !admissionDate || !academicYear || !subjects || !Array.isArray(subjects) || subjects.length === 0) {
+        if (!studentName || !fatherName || !motherName || !contactNo || !rollNo || !classId || !sectionId || !classTeacher || !admissionDate || !academicYear || !totalMark || !Grade || !semester || !subjects || !Array.isArray(subjects) || subjects.length === 0) {
             return res.status(400).json({ message: 'All fields are required' });
         }
 
-        
         const subjectMarks = subjects.map(({ subjectName, totalMarks, marksObtained }) => {
             const percentage = ((marksObtained / totalMarks) * 100).toFixed(2);
 
@@ -35,7 +36,6 @@ exports.addStudentInfo = async (req, res) => {
             return { subjectName, totalMarks, marksObtained, percentage, grade };
         });
 
-        
         const student = new Student({
             studentName,
             fatherName,
@@ -47,6 +47,9 @@ exports.addStudentInfo = async (req, res) => {
             classTeacher,
             admissionDate,
             academicYear,
+            semester,
+            totalMark,
+            Grade,
             subjects: subjectMarks
         });
 
@@ -63,26 +66,24 @@ exports.addStudentInfo = async (req, res) => {
     }
 };
 
-exports.resultmarks = async(req, res) => {
-       try {
-            const {academicYear, classId, exam} = req.query;
+exports.resultmarks = async (req, res) => {
+    try {
+        const { academicYear, classId, semester } = req.query;
 
-            if(!academicYear || !classId || !exam){
-                return res.status(400).json({ message: 'All fields are required' });
-            }
+        if (!academicYear || !classId || !semester) {
+            return res.status(400).json({ message: 'All fields are required' });
+        }
 
-            const students = await Student.find({academicYear, classId, exam});
-            if(students.length === 0) {
-                return res.status(404).json({ message: 'No students found' });
-            }
-            
-            res.status(200).json({ message: 'Student marks retrieved successfully', students });
+        const students = await Student.find({ academicYear, classId, semester });
 
+        if (students.length === 0) {
+            return res.status(404).json({ message: 'No students found' });
+        }
 
-       } catch (error) {
-        console.log("error while fetching data", error);
+        res.status(200).json({ message: 'Student marks retrieved successfully', students });
+
+    } catch (error) {
+        console.error("Error while fetching data:", error);
         res.status(500).json({ message: 'Server Error', error: error.message });
-       }
-    };
-
-    
+    }
+};
