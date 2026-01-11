@@ -4,7 +4,7 @@ import baseApi from "../API/baseUrl";
 
 
 interface LoginPayload {
-  email: string;
+  username: string;
   password: string;
 }
 

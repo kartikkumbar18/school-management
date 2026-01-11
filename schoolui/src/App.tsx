@@ -5,6 +5,7 @@ import Results from './Pages/Results';
 import Login from './Pages/Authentication/Login';
 import ForgotPassword from './Pages/Authentication/ForgotPassword';
 import StudentInfo from './Pages/Admin/StudentInfo';
+import About  from './Pages/About';
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
         <Route path='/login' element={<Login/>}/>
         <Route path='/forgotPassword' element={<ForgotPassword/>}/>
         <Route path='/studentInfo' element={<StudentInfo/>}/>
+        <Route path='/About' element={<About/>}/>
 
        
       </Routes>

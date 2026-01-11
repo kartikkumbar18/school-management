@@ -31,7 +31,7 @@ const Login = () => {
 
   const formik = useFormik({
     initialValues: {
-      email: "",
+      username: "",
       password: "",
     },
     validationSchema,
@@ -59,22 +59,22 @@ const Login = () => {
         {/* Email */}
         <div>
           <label className="mb-1 block text-sm font-medium text-gray-600">
-            Email Address
+            Username
           </label>
           <input
-            type="email"
+            type="text"
             maxLength={15}
-            {...formik.getFieldProps("email")}
+            {...formik.getFieldProps("username")}
             className={`w-full rounded-lg border px-4 py-2 outline-none transition-all duration-300
               ${
-                formik.touched.email && formik.errors.email
+                formik.touched.username && formik.errors.username
                   ? "border-red-500 focus:ring-2 focus:ring-red-400"
                   : "border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-400"
               }`}
           />
-          {formik.touched.email && formik.errors.email && (
+          {formik.touched.username && formik.errors.username && (
             <p className="mt-1 text-sm text-red-500 animate-pulse">
-              {formik.errors.email}
+              {formik.errors.username}
             </p>
           )}
         </div>

@@ -29,7 +29,7 @@ const initialState: AuthState = {
 
 export const loginUser = createAsyncThunk<
   Admin,
-  { email: string; password: string },
+  { username: string; password: string },
   { rejectValue: string }
 >("auth/loginUser", async (payload, { rejectWithValue }) => {
   try {
@@ -38,7 +38,7 @@ export const loginUser = createAsyncThunk<
     return {
       id: 1,
       name: "Kartik",
-      email: payload.email,
+      email: payload.username,
       token: data.token,
     };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
