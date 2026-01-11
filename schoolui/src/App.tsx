@@ -5,7 +5,9 @@ import Results from './Pages/Results';
 import Login from './Pages/Authentication/Login';
 import ForgotPassword from './Pages/Authentication/ForgotPassword';
 import StudentInfo from './Pages/Admin/StudentInfo';
-import About  from './Pages/About';
+import { About } from './Pages/About';
+import { Facilities } from './Pages/Facilities';
+import { Contactus } from './Pages/Contactus';
 
 function App() {
 
@@ -19,6 +21,8 @@ function App() {
         <Route path='/forgotPassword' element={<ForgotPassword/>}/>
         <Route path='/studentInfo' element={<StudentInfo/>}/>
         <Route path='/About' element={<About/>}/>
+        <Route path="/facilities" element={<Facilities/>}/>
+        <Route path="/Contactus" element={<Contactus/>}/>
 
        
       </Routes>
