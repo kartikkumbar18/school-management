@@ -10,7 +10,7 @@ const LandingPage: React.FC = () => {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="mt-24 bg-gradient-to-r from-indigo-600 to-blue-500 py-20 text-center text-white">
+      <section className="mt-24 bg-gradient-to-r from-black to-yellow-600 py-20 text-center text-white">
         <h1 className="text-4xl md:text-5xl font-bold">
           Smart School Management System
         </h1>
@@ -18,7 +18,7 @@ const LandingPage: React.FC = () => {
           A complete digital solution to manage students, teachers, academics,
           communication, and administration efficiently.
         </p>
-        <button className="mt-6 rounded-lg bg-white px-6 py-3 font-semibold text-indigo-600 hover:bg-gray-100">
+        <button className="mt-6 rounded-lg  px-6 py-3 font-semibold bg-gradient-to-r from-black to-yellow-600">
           Request a Demo
         </button>
       </section>
@@ -27,7 +27,7 @@ const LandingPage: React.FC = () => {
       <section className="mx-auto mt-20 max-w-6xl px-6">
         <div className="grid gap-8 md:grid-cols-2">
           <div className="rounded-xl bg-indigo-50 p-8 shadow-lg">
-            <h2 className="mb-4 text-2xl font-bold text-indigo-600">
+            <h2 className="mb-4 text-2xl font-bold text-amber-500">
               Our Vision
             </h2>
             <p className="leading-7 text-gray-700">
@@ -38,7 +38,7 @@ const LandingPage: React.FC = () => {
           </div>
 
           <div className="rounded-xl bg-indigo-50 p-8 shadow-lg">
-            <h2 className="mb-4 text-2xl font-bold text-indigo-600">
+            <h2 className="mb-4 text-2xl font-bold text-amber-500">
               Our Mission
             </h2>
             <p className="leading-7 text-gray-700">
@@ -57,7 +57,7 @@ const LandingPage: React.FC = () => {
 
       {/* Features Section */}
       <section className="mx-auto max-w-6xl px-6 py-16 text-center">
-        <h2 className="mb-10 text-3xl font-bold text-indigo-600">
+        <h2 className="mb-10 text-3xl font-bold text-amber-500">
           Powerful Features
         </h2>
 
@@ -76,7 +76,7 @@ const LandingPage: React.FC = () => {
               key={index}
               className="rounded-xl bg-white p-6 shadow hover:shadow-lg transition"
             >
-              <h3 className="text-lg font-semibold text-indigo-600">
+              <h3 className="text-lg font-semibold text-amber-500">
                 {feature}
               </h3>
               <p className="mt-2 text-sm text-gray-600">
@@ -89,7 +89,7 @@ const LandingPage: React.FC = () => {
       </section>
 
       {/* Statistics */}
-      <section className="bg-indigo-600 py-16 text-white">
+      <section className="bg-gradient-to-r from-black to-yellow-600 py-16 text-white">
         <div className="mx-auto flex max-w-6xl flex-wrap justify-center gap-12 text-center">
           <div>
             <h3 className="text-4xl font-bold">300+</h3>
@@ -115,7 +115,7 @@ const LandingPage: React.FC = () => {
           Join hundreds of institutions already benefiting from our modern
           school management platform.
         </p>
-        <button className="mt-6 rounded-lg bg-indigo-600 px-8 py-3 font-semibold text-white hover:bg-indigo-700">
+        <button className="mt-6 rounded-lg bg-gradient-to-r from-black to-yellow-600 px-8 py-3 font-semibold text-white hover:bg-indigo-700">
           Get Started Today
         </button>
       </section>
