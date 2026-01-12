@@ -8,12 +8,14 @@ import StudentInfo from './Pages/Admin/StudentInfo';
 import { About } from './Pages/About';
 import { Facilities } from './Pages/Facilities';
 import { Contactus } from './Pages/Contactus';
+import Chatbot from './Components/Chatbot/Chatbot';
 
 function App() {
 
   return (
     <>
       <BrowserRouter>
+      <Chatbot/>
       <Routes>
         <Route path='/' element={<LandingPage/>}/>
         <Route path='/results' element={<Results/>}/>
