@@ -9,6 +9,7 @@ import { About } from './Pages/About';
 import { Facilities } from './Pages/Facilities';
 import { Contactus } from './Pages/Contactus';
 import Chatbot from './Components/Chatbot/Chatbot';
+import { ListingUser } from './Pages/Admin/ListingUser';
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
         <Route path='/About' element={<About/>}/>
         <Route path="/facilities" element={<Facilities/>}/>
         <Route path="/Contactus" element={<Contactus/>}/>
+        <Route path="/ListingUser" element={<ListingUser/>}/>
 
        
       </Routes>
