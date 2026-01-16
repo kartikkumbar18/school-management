@@ -10,6 +10,7 @@ export const AddUser: React.FC<AddUserProps> = ({ isOpen, onClose }) => {
   const [loading, setLoading] = useState(false);
 
   const [form, setForm] = useState({
+    userName:"",
     firstName: "",
     lastName: "",
     email: "",
