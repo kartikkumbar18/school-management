@@ -1,5 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Popup } from "../../Components/Popup/popup";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../RTK/Store";
+
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { addUser, resetAddUserState, fetchUsers } from "../RTK/Slice/AddUserSlice";
 
 interface AddUserProps {
   isOpen: boolean;
@@ -7,18 +13,24 @@ interface AddUserProps {
 }
 
 export const AddUser: React.FC<AddUserProps> = ({ isOpen, onClose }) => {
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
+  const { addLoading, addSuccess, error } = useSelector(
+    (state: RootState) => state.users
+  );
 
   const [form, setForm] = useState({
-    userName:"",
+    userName: "",
     firstName: "",
     lastName: "",
     email: "",
-    phone: "",
-    role: "Student",
+    password: "",
+    confirmPassword: "",
     isStaff: false,
   });
 
+  const [passwordError, setPasswordError] = useState<string | null>(null);
+
+  // Handle input changes
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -26,15 +38,50 @@ export const AddUser: React.FC<AddUserProps> = ({ isOpen, onClose }) => {
     setForm({ ...form, [name]: type === "checkbox" ? checked : value });
   };
 
+  // Handle submit
   const handleSubmit = () => {
-    setLoading(true);
+    if (form.password !== form.confirmPassword) {
+      setPasswordError("Passwords do not match");
+      return;
+    }
 
-    setTimeout(() => {
-      console.log("User Added:", form);
-      setLoading(false);
-      onClose();
-    }, 1000);
+    setPasswordError(null);
+
+    dispatch(
+      addUser({
+        username: form.userName,
+        first_name: form.firstName,
+        last_name: form.lastName,
+        email: form.email,
+        password: form.password,
+        is_staff: form.isStaff,
+      })
+    );
   };
+
+  // Watch for success or error to show toast
+  useEffect(() => {
+    if (addSuccess) {
+      toast.success("User added successfully!");
+      dispatch(fetchUsers()); // Refresh user list
+      onClose(); // Close popup
+      dispatch(resetAddUserState()); // Reset slice state
+      // Clear form fields
+      setForm({
+        userName: "",
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+        isStaff: false,
+      });
+    }
+
+    if (error) {
+      toast.error(`Failed to add user: ${error}`);
+    }
+  }, [addSuccess, error, dispatch, onClose]);
 
   return (
     <Popup
@@ -43,10 +90,16 @@ export const AddUser: React.FC<AddUserProps> = ({ isOpen, onClose }) => {
       onClose={onClose}
       onSubmit={handleSubmit}
       submitText="Save User"
-      loading={loading}
+      loading={addLoading}
     >
-      {/* Form Fields */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <input
+          name="userName"
+          placeholder="Username"
+          value={form.userName}
+          onChange={handleChange}
+          className="w-full rounded-lg border px-4 py-2"
+        />
         <input
           name="firstName"
           placeholder="First Name"
@@ -54,7 +107,6 @@ export const AddUser: React.FC<AddUserProps> = ({ isOpen, onClose }) => {
           onChange={handleChange}
           className="w-full rounded-lg border px-4 py-2"
         />
-
         <input
           name="lastName"
           placeholder="Last Name"
@@ -62,7 +114,6 @@ export const AddUser: React.FC<AddUserProps> = ({ isOpen, onClose }) => {
           onChange={handleChange}
           className="w-full rounded-lg border px-4 py-2"
         />
-
         <input
           name="email"
           type="email"
@@ -71,26 +122,22 @@ export const AddUser: React.FC<AddUserProps> = ({ isOpen, onClose }) => {
           onChange={handleChange}
           className="w-full rounded-lg border px-4 py-2"
         />
-
         <input
-          name="phone"
-          placeholder="Phone Number"
-          value={form.phone}
+          name="password"
+          type="password"
+          placeholder="Password"
+          value={form.password}
           onChange={handleChange}
           className="w-full rounded-lg border px-4 py-2"
         />
-
-        <select
-          name="role"
-          value={form.role}
+        <input
+          name="confirmPassword"
+          type="password"
+          placeholder="Confirm Password"
+          value={form.confirmPassword}
           onChange={handleChange}
           className="w-full rounded-lg border px-4 py-2"
-        >
-          <option>Student</option>
-          <option>Teacher</option>
-          <option>Admin</option>
-        </select>
-
+        />
         <label className="flex items-center gap-2 text-sm font-semibold">
           <input
             type="checkbox"
@@ -100,6 +147,10 @@ export const AddUser: React.FC<AddUserProps> = ({ isOpen, onClose }) => {
           />
           Is Staff
         </label>
+
+        {passwordError && (
+          <p className="col-span-2 text-sm text-red-600">{passwordError}</p>
+        )}
       </div>
     </Popup>
   );

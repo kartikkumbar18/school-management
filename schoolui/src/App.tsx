@@ -10,6 +10,9 @@ import { Facilities } from './Pages/Facilities';
 import { Contactus } from './Pages/Contactus';
 import Chatbot from './Components/Chatbot/Chatbot';
 import { ListingUser } from './Pages/Admin/ListingUser';
+import { AdminDashboard } from './Pages/Admin/Dashboard/AdminDashboard';
+import { ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
 
@@ -27,10 +30,20 @@ function App() {
         <Route path="/facilities" element={<Facilities/>}/>
         <Route path="/Contactus" element={<Contactus/>}/>
         <Route path="/ListingUser" element={<ListingUser/>}/>
+        <Route path="/admin/dashboard" element={<AdminDashboard/>}/>
 
        
       </Routes>
       </BrowserRouter>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        pauseOnHover
+        theme="colored"
+      />
     </>
   )
 }

@@ -1,17 +1,19 @@
-import { API_URLS } from "../API/apiUrl";
 import baseApi from "../API/baseUrl";
+import { API_URLS } from "../API/apiUrl";
 
-
-
-interface LoginPayload {
+export interface LoginPayload {
   username: string;
   password: string;
 }
 
-export const loginApi = async (payload: LoginPayload) => {
-  const response = await baseApi.post(
-    API_URLS.AUTH.LOGIN,
-    payload
-  );
-  return response.data;
+export interface LoginResponse {
+  access_token: string;
+  username: string;
+}
+
+export const loginApi = async (
+  payload: LoginPayload
+): Promise<LoginResponse> => {
+  const { data } = await baseApi.post(API_URLS.AUTH.LOGIN, payload);
+  return data; // { access_token, username }
 };
