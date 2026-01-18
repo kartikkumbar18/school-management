@@ -1,23 +1,22 @@
-// Services/UserServices.ts
 import baseApi from "../API/baseUrl";
-import { API_URLS } from "../API/apiUrl";
 
 export interface AddUserPayload {
-  userName: string;
-  firstName: string;
-  lastName: string;
+  username: string;
+  first_name: string;
+  last_name: string;
   email: string;
-  phone: string;
-  role: string;
-  isStaff: boolean;
+  password: string;
+  is_staff?: boolean;
 }
 
+// Add user
 export const addUserApi = async (payload: AddUserPayload) => {
-  const { data } = await baseApi.post(API_URLS.USER.ADD, payload);
+  const { data } = await baseApi.post("/api/users/", payload);
   return data;
 };
 
+// Get users
 export const getUsersApi = async () => {
-    const { data } = await baseApi.get(API_URLS.USER.ADD);
-    return data;
-  };
+  const { data } = await baseApi.get("/api/users/");
+  return data;
+};

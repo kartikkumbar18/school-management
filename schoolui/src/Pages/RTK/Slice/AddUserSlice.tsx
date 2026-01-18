@@ -1,29 +1,23 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
 import { addUserApi, getUsersApi, AddUserPayload } from "../Services/UserServices";
+import axios from "axios";
 
-// -------------------- Types --------------------
 interface User {
-    username: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    isStaff: boolean;
-    isActive: boolean;
-    dateJoined?: string;
-    lastLogin?: string | null;
-  }
-  
+  username: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  is_staff: boolean;
+}
 
 interface UserState {
   users: User[];
-  loading: boolean; // For GET
-  addLoading: boolean; // For POST
+  loading: boolean;
+  addLoading: boolean;
   addSuccess: boolean;
   error: string | null;
 }
 
-// -------------------- Initial State --------------------
 const initialState: UserState = {
   users: [],
   loading: false,
@@ -32,9 +26,7 @@ const initialState: UserState = {
   error: null,
 };
 
-// -------------------- Async Thunks --------------------
-
-// GET users
+// Fetch users
 export const fetchUsers = createAsyncThunk(
   "user/fetchUsers",
   async (_, { rejectWithValue }) => {
@@ -49,23 +41,21 @@ export const fetchUsers = createAsyncThunk(
   }
 );
 
-// POST add user
-export const addUser = createAsyncThunk<
-  void,
-  AddUserPayload,
-  { rejectValue: string }
->("user/addUser", async (payload, { rejectWithValue }) => {
-  try {
-    await addUserApi(payload);
-  } catch (error: unknown) {
-    if (axios.isAxiosError(error)) {
-      return rejectWithValue(error.response?.data?.message || "Failed to add user");
+// Add user
+export const addUser = createAsyncThunk<void, AddUserPayload, { rejectValue: string }>(
+  "user/addUser",
+  async (payload, { rejectWithValue }) => {
+    try {
+      await addUserApi(payload);
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(error.response?.data?.message || "Failed to add user");
+      }
+      return rejectWithValue("Failed to add user");
     }
-    return rejectWithValue("Failed to add user");
   }
-});
+);
 
-// -------------------- Slice --------------------
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -76,11 +66,10 @@ const userSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    // Fetch Users
     builder
+      // Fetch Users
       .addCase(fetchUsers.pending, (state) => {
         state.loading = true;
-        state.error = null;
       })
       .addCase(fetchUsers.fulfilled, (state, action) => {
         state.loading = false;
@@ -89,10 +78,8 @@ const userSlice = createSlice({
       .addCase(fetchUsers.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
-      });
-
-    // Add User
-    builder
+      })
+      // Add User
       .addCase(addUser.pending, (state) => {
         state.addLoading = true;
         state.error = null;
@@ -108,6 +95,5 @@ const userSlice = createSlice({
   },
 });
 
-// -------------------- Exports --------------------
 export const { resetAddUserState } = userSlice.actions;
 export default userSlice.reducer;

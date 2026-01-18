@@ -1,23 +1,13 @@
-import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { loginApi } from "../Services/AuthServices";
-
-
-/* -------------------- Types -------------------- */
-
-interface Admin {
-  id: number;
-  name: string;
-  email: string;
-  token: string;
-}
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { loginApi, LoginPayload } from "../Services/AuthServices";
 
 interface AuthState {
-  user: Admin | null;
+  user: {
+    username: string;
+  } | null;
   isLoading: boolean;
   error: string | null;
 }
-
-/* -------------------- Initial State -------------------- */
 
 const initialState: AuthState = {
   user: null,
@@ -25,31 +15,26 @@ const initialState: AuthState = {
   error: null,
 };
 
-/* -------------------- Async Thunk -------------------- */
-
 export const loginUser = createAsyncThunk<
-  Admin,
-  { username: string; password: string },
+  { username: string },
+  LoginPayload,
   { rejectValue: string }
 >("auth/loginUser", async (payload, { rejectWithValue }) => {
   try {
     const data = await loginApi(payload);
 
-    return {
-      id: 1,
-      name: "Kartik",
-      email: payload.username,
-      token: data.token,
-    };
+    // ✅ STORE TOKEN (CORRECT KEY)
+    localStorage.setItem("accessToken", data.access_token);
+    localStorage.setItem("username", data.username);
+
+    return { username: data.username };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error:any) {
+  } catch (error: any) {
     return rejectWithValue(
-      error?.response?.data?.error || "Login failed"
+      error?.response?.data?.detail || "Login failed"
     );
   }
 });
-
-/* -------------------- Slice -------------------- */
 
 const authSlice = createSlice({
   name: "auth",
@@ -57,8 +42,8 @@ const authSlice = createSlice({
   reducers: {
     logout: (state) => {
       state.user = null;
-      state.error = null;
-      localStorage.removeItem("token");
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("username");
     },
   },
   extraReducers: (builder) => {
@@ -67,22 +52,16 @@ const authSlice = createSlice({
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(
-        loginUser.fulfilled,
-        (state, action: PayloadAction<Admin>) => {
-          state.isLoading = false;
-          state.user = action.payload;
-          localStorage.setItem("token", action.payload.token);
-        }
-      )
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = action.payload;
+      })
       .addCase(loginUser.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload ?? "Something went wrong";
+        state.error = action.payload ?? "Login failed";
       });
   },
 });
-
-/* -------------------- Exports -------------------- */
 
 export const { logout } = authSlice.actions;
 export default authSlice.reducer;

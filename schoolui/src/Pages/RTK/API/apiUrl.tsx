@@ -1,8 +1,8 @@
 export const API_URLS = {
   AUTH: {
-    LOGIN: "/login",
+    LOGIN: "/api/login/",
   },
   USER: {
-    ADD: "/api/users",
+    ADD: "/api/users/",
   },
 };
