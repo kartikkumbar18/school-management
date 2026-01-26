@@ -13,6 +13,8 @@ import { ListingUser } from './Pages/Admin/ListingUser';
 import { AdminDashboard } from './Pages/Admin/Dashboard/AdminDashboard';
 import { ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import { RoleManagement } from './Pages/Admin/Dashboard/RoleManagement';
+import RoleMapping from './Pages/Admin/Dashboard/RoleMapping';
 
 function App() {
 
@@ -31,6 +33,8 @@ function App() {
         <Route path="/Contactus" element={<Contactus/>}/>
         <Route path="/ListingUser" element={<ListingUser/>}/>
         <Route path="/admin/dashboard" element={<AdminDashboard/>}/>
+        <Route path="/RoleManagement" element={<RoleManagement/>}/>
+        <Route path="/RoleMapping" element={<RoleMapping/>}/>
 
        
       </Routes>
