@@ -107,7 +107,7 @@ export const Sidebar: React.FC = () => {
               </NavLink>
 
               <NavLink
-                to="/roles/add"
+                to="/RoleManagement"
                 className={({ isActive }) =>
                   `rounded-md px-3 py-2 transition
                   ${
@@ -124,7 +124,7 @@ export const Sidebar: React.FC = () => {
               </NavLink>
 
               <NavLink
-                to="/roles/mapping"
+                to="/RoleMapping"
                 className={({ isActive }) =>
                   `rounded-md px-3 py-2 transition
                   ${
